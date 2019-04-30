@@ -1,0 +1,22 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: jasonhendry/go-docker-builder:latest
+    working_directory: /go/src/bitbucket.org/portable/auto-timesheet-checker
+    steps:
+      - checkout
+      - setup_remote_docker:   # (2)
+          docker_layer_caching: true
+
+      - add_ssh_keys:
+          fingerprints:
+            - "de:52:29:cc:69:60:a3:8c:fd:fa:fa:12:2c:f6:91:b9"
+
+      - run: go get -d
+      - run: mkdir -p build
+      - run: GOOS=linux GOARCH=amd64 go build -o abr-etl abr-etl.go
+
+      - run: mkdir -p ${SSH_USER}@${SSH_HOST}
+      - run: scp -auv abr* ${SSH_USER}@${SSH_HOST}:abr-etl/
+
