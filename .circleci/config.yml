@@ -20,5 +20,5 @@ jobs:
       - run: cp abr-etl.sh build
       - run: apt update && apt install -y python-pip
       - run: pip install awscli --upgrade
-      - run: ~/.local/bin/aws s3 sync build 's3://sbv-abr-etl/code'
+      - run: aws s3 sync build 's3://sbv-abr-etl/code'
 
