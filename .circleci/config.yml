@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  aws-cli: circleci/aws-cli@0.1.13
+  aws-s3: circleci/aws-s3@1.0.8
 jobs:
   build:
     docker:
@@ -20,6 +20,7 @@ jobs:
       - run: GOOS=linux GOARCH=amd64 go build -o build/abr-etl abr-etl.go
 
       - run: cp abr-etl.sh build
-      - aws-cli/install:
-      - run: aws s3 sync build/ s3://sbv-abr-etl/code/
+      - aws-s3/sync:
+          from: build
+          to: 's3://sbv-abr-etl/code'
 
