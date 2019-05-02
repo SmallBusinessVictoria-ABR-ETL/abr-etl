@@ -5,7 +5,7 @@ jobs:
   build:
     docker:
       - image: golang:1.12.4-stretch
-    working_directory: /go/src/bitbucket.org/portable/auto-timesheet-checker
+    working_directory: /go/src/github.com/SmallBusinessVictoria-ABR-ETL/abr-etl
     steps:
       - checkout
       - setup_remote_docker:   # (2)
@@ -20,5 +20,6 @@ jobs:
       - run: GOOS=linux GOARCH=amd64 go build -o build/abr-etl abr-etl.go
 
       - run: cp abr-etl.sh build
+      - aws-cli/install:
       - run: aws s3 sync build/ s3://sbv-abr-etl/code/
 
