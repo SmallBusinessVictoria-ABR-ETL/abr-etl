@@ -20,7 +20,7 @@ jobs:
       - run: GOOS=linux GOARCH=amd64 go build -o build/abr-etl abr-etl.go
 
       - run: cp abr-etl.sh build
-      - run: apt install python-pip
+      - run: apt update && install -f python-pip
       - aws-s3/sync:
           from: build
           to: 's3://sbv-abr-etl/code'
