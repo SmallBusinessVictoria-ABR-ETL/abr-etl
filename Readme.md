@@ -16,6 +16,20 @@
   * `DELTA/UPDATED/Agency_Data/importdate=<Import Date>/Agency_Data_updated.csv`
   * `DELTA/ADDED/Agency_Data/importdate=<Import Date>/Agency_Data_added.csv`
 
+
+## SFTP Access to Deltas
+
+1. https://ap-southeast-2.console.aws.amazon.com/transfer/home?region=ap-southeast-2#/
+2. Create Server
+3. Set Hostname
+4. Select "Service managed" for Identity Provider
+5. Select an IAM role with access to CloudWatch Logs
+6. Create a user - With correct Role (eg Data Engineer - See Section describing Roles for more)
+7. Add SSH Key
+8. Test SFTP ()
+
+**Note: Both the Server and User roles must allow "Assume:Role from Transfer"**
+
 ## Deployment
 
 * CircleCI builds the go ETL application and syncs the ETL Bash scripts and application to and s3 folder.
@@ -28,4 +42,3 @@
     /home/ubuntu/abr-etl/abr-etl.sh
   ```
 
- 
