@@ -1,4 +1,6 @@
-version: 2
+version: 2.1
+orbs:
+  aws-cli: circleci/aws-cli@0.1.13
 jobs:
   build:
     docker:
@@ -15,8 +17,8 @@ jobs:
 
       - run: go get -d
       - run: mkdir -p build
-      - run: GOOS=linux GOARCH=amd64 go build -o abr-etl abr-etl.go
+      - run: GOOS=linux GOARCH=amd64 go build -o build/abr-etl abr-etl.go
 
-      - run: mkdir -p ${SSH_USER}@${SSH_HOST}
-      - run: scp -auv abr* ${SSH_USER}@${SSH_HOST}:abr-etl/
+      - run: cp abr-etl.sh build
+      - run: aws s3 sync build/ s3://sbv-abr-etl/code/
 
