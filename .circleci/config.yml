@@ -1,6 +1,4 @@
 version: 2.1
-orbs:
-  aws-s3: circleci/aws-s3@1.0.8
 jobs:
   build:
     docker:
@@ -21,7 +19,6 @@ jobs:
 
       - run: cp abr-etl.sh build
       - run: apt update && apt install -y python-pip
-      - aws-s3/sync:
-          from: build
-          to: 's3://sbv-abr-etl/code'
+      - run: pip install awscli --upgrade
+      - run: ~/.local/bin/aws s3 sync build 's3://sbv-abr-etl/code'
 
