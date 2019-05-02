@@ -8,5 +8,4 @@ export BASE_PATH="/home/ubuntu/abr-etl"
 export S3_DATA_BUCKET="sbv-abr-etl"
 #export SKIP_DOWNLOAD="skip"
 
-cd /home/ubuntu/abr-etl && \
-    /usr/local/go/bin/go run abr-etl.go
+cd /home/ubuntu/abr-etl && ./abr-etl
