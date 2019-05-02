@@ -4,7 +4,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: jasonhendry/go-docker-builder:latest
+      - image: golang:1.12.4-stretch
     working_directory: /go/src/bitbucket.org/portable/auto-timesheet-checker
     steps:
       - checkout
