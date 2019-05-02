@@ -208,14 +208,14 @@ func SyncToDataLake() {
 	}
 
 	fileMap := map[string]*regexp.Regexp{}
-	fileMap["ACNC"] = regexp.MustCompile("VIC([0-9]{6})_ABR_ACNC.txt")
-	fileMap["Agency_Data"] = regexp.MustCompile("VIC([0-9]{6})_ABR_Agency_Data.txt")
-	fileMap["Associates"] = regexp.MustCompile("VIC([0-9]{6})_ABR_Associates.txt")
-	fileMap["Businesslocation"] = regexp.MustCompile("VIC([0-9]{6})_ABR_Businesslocation.txt")
-	fileMap["Businessname"] = regexp.MustCompile("VIC([0-9]{6})_ABR_Businessname.txt")
-	fileMap["Funds"] = regexp.MustCompile("VIC([0-9]{6})_ABR_Funds.txt")
-	fileMap["Othtrdnames"] = regexp.MustCompile("VIC([0-9]{6})_ABR_Othtrdnames.txt")
-	fileMap["Replacedabn"] = regexp.MustCompile("VIC([0-9]{6})_ABR_Replacedabn.txt")
+	fileMap["ACNC"] = regexp.MustCompile("VIC([0-9]{6})_ABR_ACNC.txt$")
+	fileMap["Agency_Data"] = regexp.MustCompile("VIC([0-9]{6})_ABR_Agency_Data.txt$")
+	fileMap["Associates"] = regexp.MustCompile("VIC([0-9]{6})_ABR_Associates.txt$")
+	fileMap["Businesslocation"] = regexp.MustCompile("VIC([0-9]{6})_ABR_Businesslocation.txt$")
+	fileMap["Businessname"] = regexp.MustCompile("VIC([0-9]{6})_ABR_Businessname.txt$")
+	fileMap["Funds"] = regexp.MustCompile("VIC([0-9]{6})_ABR_Funds.txt$")
+	fileMap["Othtrdnames"] = regexp.MustCompile("VIC([0-9]{6})_ABR_Othtrdnames.txt$")
+	fileMap["Replacedabn"] = regexp.MustCompile("VIC([0-9]{6})_ABR_Replacedabn.txt$")
 
 	m, _ := time.LoadLocation("Australia/Melbourne")
 
@@ -249,6 +249,9 @@ func S3Sync(s string, file string, filenameDate time.Time) {
 
 	logs <- "Uploading " + file + " to " + *DataKey(s, filenameDate)
 	f := GetFile(file)
+	if f == nil {
+		return
+	}
 	s3c := s3.New(session.Must(session.NewSession()))
 	resp, err := s3c.PutObject(&s3.PutObjectInput{
 		Body:   f,
@@ -274,10 +277,12 @@ func GetFile(s string) io.ReadSeeker {
 	err := exec.Command("/bin/gzip", f).Run()
 	if err != nil {
 		logs <- err.Error()
+		return nil
 	}
 	file, err := os.Open(f + ".gz")
 	if err != nil {
 		logs <- err.Error()
+		return nil
 	}
 	return file
 }

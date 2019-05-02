@@ -8,4 +8,5 @@ export BASE_PATH="/home/ubuntu/abr-etl"
 export S3_DATA_BUCKET="sbv-abr-etl"
 #export SKIP_DOWNLOAD="skip"
 
+chmod +x /home/ubuntu/abr-etl/abr-etl
 cd /home/ubuntu/abr-etl && ./abr-etl
