@@ -15,7 +15,7 @@ jobs:
 
       - run: go get -d
       - run: mkdir -p build
-      - run: GOOS=linux GOARCH=amd64 go build -o build/abr-etl abr-etl.go
+      - run: GOOS=linux GOARCH=amd64 go build -o build/abr-etl .
 
       - run: cp abr-etl.sh build
       - run: apt update && apt install -y python-pip
